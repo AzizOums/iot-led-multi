@@ -1,0 +1,30 @@
+
+version: "3"
+
+networks:
+  grafana:
+
+volumes:
+  db_data: {}
+
+services:
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    networks:
+      - grafana
+    env_file:
+      - influxdb.env
+    volumes:
+      - db_data
+
+  grafana:
+    image: grafana/grafana:7.3.6
+    env_file:
+      - grafana.env
+    ports:
+      - 3000:3000
+    networks:
+      - grafana
