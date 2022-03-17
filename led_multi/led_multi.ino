@@ -3,7 +3,9 @@
 #include <time.h>
 
 #define PIN 18
-#define NUMPIXELS 16
+#define TOUCH_PIN 13
+#define PIXEL 0
+#define NUM_PIXELS 1
 #define DELAYVAL 500
 #define MAXPLANIF 7
 
@@ -25,7 +27,7 @@ int rgb[3];
 int brightness = 180;
 int color = 0;
 
-Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels(NUM_PIXELS, PIN, NEO_GRB + NEO_KHZ800);
 EspMQTTClient client("Aziz", "Aziz1998", "test.mosquitto.org");
 
 void mqttSetup()
@@ -37,8 +39,8 @@ void mqttSetup()
 
 void ledControle(String payload)
 {
-  if (payload.startsWith("#") && payload.length() == 7)
-    setColor(payload);
+  if (payload.length() == 6)
+    setHexColor(payload);
   else
   {
     int c = payload.toInt();
@@ -85,8 +87,8 @@ void mqttControle()
 void sendTelemetrie()
 {
   String s = "\"state\": " + (String)((color != 0 ? 1 : 0));
-  String b = "\"brightness\": " + (String)(color != 0 ? brightness : 0);
-  String c = "\"color\": \"rgb(" + (String)rgb[0] + ", " + (String)rgb[1] + ", " + (String)rgb[2] + ")\"";
+  String b = "\"brightness\": " + (String)brightness;
+  String c = "\"color\": [" + (String)rgb[0] + ", " + (String)rgb[1] + ", " + (String)rgb[2] + "]";
   String msg = "{" + s + ", " + c + ", " + b + "}";
   client.publish("iot/telemetrie", msg);
 }
@@ -112,11 +114,8 @@ void onConnectionEstablished()
 void changeColor(int rgbCol[])
 {
   pixels.clear();
-  for (int i = 0; i < NUMPIXELS; i++)
-  {
-    pixels.setPixelColor(i, pixels.Color(rgbCol[0], rgbCol[1], rgbCol[2]));
-    pixels.show();
-  }
+  pixels.setPixelColor(PIXEL, pixels.Color(rgbCol[0], rgbCol[1], rgbCol[2]));
+  pixels.show();
   if (rgb != rgbCol)
     rgb[0], rgb[1], rgb[2] = rgbCol[0], rgbCol[1], rgbCol[2];
 }
@@ -128,14 +127,14 @@ void changeBrightness(int b)
   pixels.show();
 }
 
-void setColor(String hex)
+void setHexColor(String hex)
 {
   char x[3];
-  hex.substring(1, 3).toCharArray(x, 3);
+  hex.substring(0, 2).toCharArray(x, 3);
   rgb[0] = (int)strtol(x, NULL, 16);
-  hex.substring(3, 5).toCharArray(x, 3);
+  hex.substring(2, 4).toCharArray(x, 3);
   rgb[1] = (int)strtol(x, NULL, 16);
-  hex.substring(5, 7).toCharArray(x, 3);
+  hex.substring(4, 6).toCharArray(x, 3);
   rgb[2] = (int)strtol(x, NULL, 16);
   changeColor(rgb);
 }
@@ -198,7 +197,8 @@ void setState(int c)
 // capteur de toucher
 void touchControle()
 {
-  if (touchRead(13) < 10)
+  int t = touchRead(TOUCH_PIN);
+  if (t < 30)
   {
     color++;
     setState(color);
@@ -264,8 +264,7 @@ void loop()
       last = now;
     }
   }
-  if (!client.isConnected())
-    touchControle();
+  touchControle();
   if (nbPlanif > 0)
     comparePlanif();
   delay(DELAYVAL);
