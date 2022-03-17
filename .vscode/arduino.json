@@ -1,5 +1,6 @@
 {
     "board": "esp32:esp32:node32s",
     "port": "COM8",
-    "sketch": "led_multi\\led_multi.ino"
+    "sketch": "led_multi\\led_multi.ino",
+    "output": "led_multi\\output"
 }
