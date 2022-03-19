@@ -4,7 +4,7 @@
 #include <EspMQTTClient.h>
 #include "led.h"
 
-#define MAXPLANIF 7
+#define MAXPLANIF 5
 
 time_t now;
 time_t last;
@@ -41,7 +41,10 @@ void mqttControle();
 void sendTelemetrie();
 void listPlanif();
 
+void resetPlanif();
 void comparePlanifs();
+void addPlanif(String payload);
+
 void getCurrentTime();
 boolean isSameTime(struct Planif p);
 

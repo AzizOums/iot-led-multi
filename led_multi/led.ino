@@ -7,6 +7,8 @@ void changeColor(uint32_t c)
   pixels.show();
   if (color != c)
     color = c;
+  if (!state)
+    state = 1;
 }
 
 void changeBrightness(int b)
@@ -17,30 +19,35 @@ void changeBrightness(int b)
     brightness = b;
 }
 
+void setOrange()
+{
+  changeColor(pixels.Color(255, 69, 0));
+  state = 1;
+}
+
 void setPurple()
 {
   changeColor(pixels.Color(255, 0, 255));
+  state = 2;
 }
 
 void setGreen()
 {
   changeColor(pixels.Color(173, 255, 47));
-}
-
-void setOrange()
-{
-  changeColor(pixels.Color(255, 69, 0));
+  state = 3;
 }
 
 void setWhite()
 {
   changeColor(pixels.Color(248, 248, 255));
+  state = 4;
 }
 
 void shutDown()
 {
   pixels.clear();
   pixels.show();
+  state = 0;
 }
 
 void setState(int c)
@@ -73,8 +80,6 @@ void touchControle()
   {
     state++;
     setState(state);
-    if (state % 5 == 0)
-      state = 0;
     if (!initialised)
       initialised = true;
   }

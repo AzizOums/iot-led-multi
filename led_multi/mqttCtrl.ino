@@ -13,6 +13,16 @@ void mqttSetup()
   client.setMaxPacketSize(512);
 }
 
+void mqttControle()
+{
+  client.subscribe("iot/led", [](const String &payload)
+                   { ledControle(payload); });
+  client.subscribe("iot/brightness", [](const String &payload)
+                   { brightnessControle(payload); });
+  client.subscribe("iot/planification", [](const String &payload)
+                   { planifControle(payload); });
+}
+
 void ledControle(String payload)
 {
   uint32_t c = payload.toInt();
@@ -32,25 +42,61 @@ void brightnessControle(String payload)
   }
 }
 
-// D HH:MM CCCCCC BBB
 void planifControle(String payload)
+{
+  if (payload.length() == 1)
+    deletePlanif(payload);
+  else if (payload == "reset")
+    resetPlanif();
+  else
+    addPlanif(payload);
+}
+
+// D HH:MM CCCCCC BBB
+void addPlanif(String payload)
 {
   if (!payload.isEmpty())
   {
+    struct Planif p;
     String list[4];
-    split(payload, list, ' ');
-    int i = indexPlanif % MAXPLANIF;
-    planifs[i].day = list[0].toInt();
-    planifs[i].color = list[2].toInt();
-    planifs[i].brightness = list[3].toInt();
     String t[2];
+    split(payload, list, ' ');
     split(list[1], t, ':');
-    planifs[i].hour = t[0].toInt();
-    planifs[i].min = t[1].toInt();
-    if (nbPlanif < MAXPLANIF)
+
+    p.day = list[0].toInt();
+    p.color = list[2].toInt();
+    p.brightness = list[3].toInt();
+    p.hour = t[0].toInt();
+    p.min = t[1].toInt();
+
+    int x = containsPlanif(p);
+    int i = x == -1 ? indexPlanif % MAXPLANIF : x;
+    planifs[i] = p;
+    if (x == -1)
+    {
       nbPlanif++;
-    indexPlanif = i + 1;
+      indexPlanif = i + 1;
+    }
   }
+}
+
+void deletePlanif(String payload)
+{
+  int index = payload.toInt();
+  if (payload != "0" && index == 0)
+    return;
+  if (index < nbPlanif && index >= 0)
+  {
+    planifs[index] = planifs[nbPlanif - 1];
+    nbPlanif--;
+    indexPlanif--;
+  }
+}
+
+void resetPlanif()
+{
+  nbPlanif = 0;
+  indexPlanif = 0;
 }
 
 void comparePlanifs()
@@ -58,28 +104,23 @@ void comparePlanifs()
   for (int i = 0; i < nbPlanif; i++)
     if (isSameTime(planifs[i]))
     {
-      changeColor(planifs[i].color);
-      changeBrightness(planifs[i].color);
+      uint32_t c = planifs[i].color;
+      if (0 <= c && c < 5)
+        setState(c);
+      else
+        changeColor(c);
+      changeBrightness(planifs[i].brightness);
     }
-}
-
-void mqttControle()
-{
-  client.subscribe("iot/led", [](const String &payload)
-                   { ledControle(payload); });
-  client.subscribe("iot/brightness", [](const String &payload)
-                   { brightnessControle(payload); });
-  client.subscribe("iot/planification", [](const String &payload)
-                   { planifControle(payload); });
 }
 
 void sendTelemetrie()
 {
-  String msg =
-      "{\"state\": " + (String)((color != 0 ? 1 : 0)) +
-      ",\"brightness\": " + (String)brightness +
-      ",\"color\": " + (String)color + "}";
+  String s = state ? "1" : "0";
+  String c = state ? (String)color : "0";
+  String b = state ? (String)brightness : "0";
+  String msg = "{\"state\": " + s + ",\"brightness\": " + b + ",\"color\": " + c + "}";
   client.publish("iot/telemetrie", msg);
+  Serial.println(state);
 }
 
 void listPlanif()
@@ -105,6 +146,18 @@ void getCurrentTime()
   ctime(&timestamp);
   now = timestamp;
   date = localtime(&now);
+}
+
+int containsPlanif(struct Planif p)
+{
+  struct Planif x;
+  for (int i = 0; i < nbPlanif; i++)
+  {
+    x = planifs[i];
+    if (x.day == p.day && x.hour == p.hour && x.min == p.min)
+      return i;
+  }
+  return -1;
 }
 
 boolean isSameTime(struct Planif p)
