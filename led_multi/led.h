@@ -1,5 +1,5 @@
-#ifndef _LED_H
-#define _LED_H
+#ifndef _LED_H_
+#define _LED_H_
 
 #include <Adafruit_NeoPixel.h>
 
@@ -9,15 +9,17 @@
 #define PIXEL 0
 #define NUM_PIXELS 1
 
-boolean initialised = false;
-int brightness = 180;
+boolean initialised = true;
+uint8_t brightness = 180;
 uint32_t color = 0;
-int state = 0;
+uint8_t state = 0;
 
 Adafruit_NeoPixel pixels(NUM_PIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
+void initLed();
+
 void changeColor(uint32_t c);
-void changeBrightness(int b);
+void changeBrightness(uint8_t b);
 
 // Off
 void shutDown(); // state: 0
@@ -29,7 +31,7 @@ void setGreen();  // state: 3
 void setWhite();  // state: 4
 
 // Mettre l'une des couleurs prédéfinies ou off
-void setState(int c);
+void setState(uint8_t c);
 
 // Utiliser le capteur de toucher pour changer de couleur
 void touchControle();

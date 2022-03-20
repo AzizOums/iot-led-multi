@@ -1,4 +1,10 @@
 #include "led.h"
+#include "saveData.h"
+
+void initLed()
+{
+  pixels.begin();
+}
 
 void changeColor(uint32_t c)
 {
@@ -11,7 +17,7 @@ void changeColor(uint32_t c)
     state = 1;
 }
 
-void changeBrightness(int b)
+void changeBrightness(uint8_t b)
 {
   pixels.setBrightness(b);
   pixels.show();
@@ -21,36 +27,41 @@ void changeBrightness(int b)
 
 void setOrange()
 {
+  if (state != 1)
+    state = 1;
   changeColor(pixels.Color(255, 69, 0));
-  state = 1;
 }
 
 void setPurple()
 {
+  if (state != 2)
+    state = 2;
   changeColor(pixels.Color(255, 0, 255));
-  state = 2;
 }
 
 void setGreen()
 {
+  if (state != 3)
+    state = 3;
   changeColor(pixels.Color(173, 255, 47));
-  state = 3;
 }
 
 void setWhite()
 {
+  if (state != 4)
+    state = 4;
   changeColor(pixels.Color(248, 248, 255));
-  state = 4;
 }
 
 void shutDown()
 {
+  if (state != 0)
+    state = 0;
   pixels.clear();
   pixels.show();
-  state = 0;
 }
 
-void setState(int c)
+void setState(uint8_t c)
 {
   switch (c % 5)
   {
