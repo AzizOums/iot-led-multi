@@ -1,4 +1,5 @@
 #include "saveData.h"
+#include "mqttCtrl.h"
 #include "led.h"
 
 void initEEPROM()
@@ -8,114 +9,69 @@ void initEEPROM()
 
 void saveData()
 {
-  boolean t[4] = {saveState(), saveColor(), saveBrightness(), savePlanifs()};
-  boolean test = false;
-  for (int i = 0; i < 4; i++)
-    test = test || t[i];
-  if (test)
-    EEPROM.commit();
-  if (t[0])
-    Serial.println("saved state");
-  if (t[1])
-    Serial.println("saved color");
-  if (t[2])
-    Serial.println("saved brightness");
-  if (t[3])
-    Serial.println("saved planifications");
+  saveState();
+  saveColor();
+  saveBrightness();
+  savePlanifs();
+  EEPROM.commit();
 }
 
 void restorePlanifs()
 {
-  Serial.println("restore pplanif");
   nbPlanif = getNbPlanif();
   indexPlanif = getIndexPlanif();
-  Serial.printf("nbPlanif: %d \nindexPlanif: %d \n", nbPlanif, indexPlanif);
   for (int i = 0; i < nbPlanif; i++)
     planifs[i] = getPlanif(i);
 }
 
+void restoreMqttInfo()
+{
+  wifiSsid = getSSID();
+  wifiPwd = getPWD();
+  initialised = getInitialised();
+}
+
 void restoreData()
 {
+  restoreMqttInfo();
+  restorePlanifs();
+
   state = getState();
   color = getColor();
   brightness = getBrightness();
-  restorePlanifs();
 
   changeBrightness(brightness);
-  if (state)
+  if (state != 0)
     changeColor(color);
   else
     setState(state);
 }
 
+// SAVE
+
 boolean saveState()
 {
   if (getState() != state)
-  {
-    EEPROM.put(addrState, state);
-    return true;
-  }
-  return false;
+    EEPROM.writeUChar(addrState, state);
 }
 
 boolean saveColor()
 {
   if (getColor() != color)
   {
-    EEPROM.put(addrColor, color);
-    return true;
+    int x = EEPROM.writeUInt(addrColor, color);
+    return x;
   }
-  return false;
 }
 
 boolean saveBrightness()
 {
   if (getBrightness() != brightness)
-  {
-    EEPROM.put(addrBrightness, brightness);
-    return true;
-  }
-  return false;
+    return EEPROM.writeUChar(addrBrightness, brightness);
 }
-
-uint8_t getState()
-{
-  uint8_t s;
-  EEPROM.get(addrState, s);
-  return s;
-}
-
-uint32_t getColor()
-{
-  uint32_t c;
-  EEPROM.get(addrColor, c);
-  return c;
-}
-
-uint8_t getBrightness()
-{
-  uint8_t b;
-  EEPROM.get(addrBrightness, b);
-  return b;
-}
-
-// boolean equals(Planif p[], Planif p2[])
-// {
-//   for (int i = 0; i < nbPlanif; i++)
-//     if (!isEqual(p[i], p2[i]))
-//       return false;
-//   return true;
-// }
 
 boolean savePlanifs()
 {
-  // Planif p[MAXPLANIF];
-  // getPlanifs(p);
-  // if (!equals(p, planifs))
-  // {
-  //   EEPROM.put(addrPlanif, planifs);
-  //   return true;
-  // }
   boolean res = false;
   res = res || saveNbPlanif();
   res = res || saveIndexPlanif();
@@ -130,7 +86,7 @@ boolean savePlanif(int i)
   {
     int a = addrPlanif + (i * sizeof(Planif));
     EEPROM.put(a, planifs[i]);
-    Serial.printf("save planif %d\n", i);
+    EEPROM.commit();
     return true;
   }
   return false;
@@ -139,27 +95,65 @@ boolean savePlanif(int i)
 boolean saveNbPlanif()
 {
   if (getNbPlanif() != nbPlanif)
-  {
-    EEPROM.put(addrNbPlanif, nbPlanif);
-    return true;
-  }
+    return EEPROM.writeUChar(addrNbPlanif, nbPlanif);
   return false;
 }
 
 boolean saveIndexPlanif()
 {
   if (getIndexPlanif() != indexPlanif)
-  {
-    EEPROM.put(addrIndexPlanif, indexPlanif);
-    return true;
-  }
+    return EEPROM.writeUChar(addrIndexPlanif, indexPlanif);
   return false;
 }
 
-// void getPlanifs(Planif p[])
-// {
-//   EEPROM.get(addrPlanif, p);
-// }
+boolean saveMqttInfo()
+{
+  saveInitialised();
+  saveSSID();
+  savePWD();
+  EEPROM.commit();
+  return true;
+}
+
+boolean saveString(int addr, String s)
+{
+  if (!EEPROM.readString(addr).equals(s))
+    return EEPROM.writeString(addr, s);
+  return false;
+}
+
+boolean saveSSID()
+{
+  return saveString(addrSSID, wifiSsid);
+}
+
+boolean savePWD()
+{
+  return saveString(addrPWD, wifiPwd);
+}
+
+boolean saveInitialised()
+{
+  if (getInitialised() != initialised)
+    return EEPROM.writeBool(addrInit, initialised);
+  return false;
+}
+
+// GET
+uint8_t getState()
+{
+  return EEPROM.readUChar(addrState);
+}
+
+uint32_t getColor()
+{
+  return EEPROM.readUInt(addrColor);
+}
+
+uint8_t getBrightness()
+{
+  return EEPROM.readUChar(addrBrightness);
+}
 
 Planif getPlanif(int i)
 {
@@ -171,14 +165,30 @@ Planif getPlanif(int i)
 
 uint8_t getNbPlanif()
 {
-  uint8_t n;
-  EEPROM.get(addrNbPlanif, n);
-  return n;
+  return EEPROM.readUChar(addrNbPlanif);
 }
 
 uint8_t getIndexPlanif()
 {
-  uint8_t i;
-  EEPROM.get(addrIndexPlanif, i);
-  return i;
+  return EEPROM.readUChar(addrIndexPlanif);
+}
+
+String getString(int addr)
+{
+  return EEPROM.readString(addr);
+}
+
+String getSSID()
+{
+  return getString(addrSSID);
+}
+
+String getPWD()
+{
+  return getString(addrPWD);
+}
+
+boolean getInitialised()
+{
+  return EEPROM.readBool(addrInit);
 }

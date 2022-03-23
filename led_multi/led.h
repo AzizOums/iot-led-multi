@@ -9,7 +9,7 @@
 #define PIXEL 0
 #define NUM_PIXELS 1
 
-boolean initialised = true;
+// boolean initialised = true;
 uint8_t brightness = 180;
 uint32_t color = 0;
 uint8_t state = 0;

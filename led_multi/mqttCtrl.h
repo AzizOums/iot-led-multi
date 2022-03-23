@@ -3,12 +3,19 @@
 
 #include <EspMQTTClient.h>
 
+boolean touchDisabled = false;
+boolean initialised = false;
+
 const char *mqttServer = "test.mosquitto.org";
-const char *wifiSsid = "Aziz";
-const char *wifiPwd = "Aziz1998";
+String wifiSsid;
+String wifiPwd;
 
-EspMQTTClient client(wifiSsid, wifiPwd, mqttServer);
+const char *ss = "default";
+const char *pp = "default";
 
+EspMQTTClient client(mqttServer, 1883);
+
+void setWifiParams(String ssid, String pwd);
 void mqttSetup();
 void onConnectionEstablished();
 
@@ -16,6 +23,7 @@ void mqttControle();
 void ledControle(String payload);
 void brightnessControle(String payload);
 void planifControle(String payload);
+void mqttDisableTouch(String payload);
 
 void sendTelemetrie();
 void sendPlanifList();

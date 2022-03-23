@@ -1,14 +1,25 @@
 #include "mqttCtrl.h"
 #include "planif.h"
 #include "led.h"
+#include "saveData.h"
 
 void onConnectionEstablished()
 {
   mqttControle();
 }
 
+void setWifiParams(String ssid, String pwd)
+{
+  wifiSsid = ssid;
+  wifiPwd = pwd;
+  initialised = true;
+  saveMqttInfo();
+}
+
 void mqttSetup()
 {
+  Serial.println("init mqtt");
+  WiFi.begin(wifiSsid.c_str(), wifiPwd.c_str());
   client.enableDebuggingMessages();
   client.enableHTTPWebUpdater();
   client.enableOTA();
@@ -23,6 +34,8 @@ void mqttControle()
                    { brightnessControle(payload); });
   client.subscribe("iot/planification", [](const String &payload)
                    { planifControle(payload); });
+  client.subscribe("iot/disable-touch", [](const String &payload)
+                   { mqttDisableTouch(payload); });
 }
 
 void ledControle(String payload)
@@ -52,6 +65,14 @@ void planifControle(String payload)
     resetPlanif();
   else
     addPlanif(payload);
+}
+
+void mqttDisableTouch(String payload)
+{
+  if (payload == "1")
+    touchDisabled = true;
+  else if (payload == "0")
+    touchDisabled = false;
 }
 
 void sendTelemetrie()

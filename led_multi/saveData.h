@@ -4,36 +4,48 @@
 #include <EEPROM.h>
 #include "planif.h"
 
-int addrState = 0;
-int addrColor = addrState + sizeof(state);
-int addrBrightness = addrColor + sizeof(color);
-int addrNbPlanif = addrBrightness + sizeof(brightness);
-int addrIndexPlanif = addrNbPlanif + sizeof(nbPlanif);
-int addrPlanif = addrIndexPlanif + sizeof(indexPlanif);
+int addrInit = 0;
+int addrSSID = addrInit + sizeof(boolean);
+int addrPWD = addrSSID + sizeof(String);
+int addrState = addrPWD + sizeof(String);
+int addrColor = addrState + sizeof(uint8_t);
+int addrBrightness = addrColor + sizeof(uint32_t);
+int addrNbPlanif = addrBrightness + sizeof(uint8_t);
+int addrIndexPlanif = addrNbPlanif + sizeof(uint8_t);
+int addrPlanif = addrIndexPlanif + sizeof(uint8_t);
 
-const int MAXSIZE = 5 * sizeof(uint8_t) + sizeof(uint32_t) + sizeof(planifs) + 3 * sizeof(String);
+const int MAXSIZE = 6 * sizeof(uint8_t) + sizeof(uint32_t) + sizeof(planifs) + 2 * sizeof(String);
 
 void initEEPROM();
-
 void saveData();
-void restoreData();
 void restorePlanifs();
+void restoreMqttInfo();
+void restoreData();
 
+// SAVE
 boolean saveState();
 boolean saveColor();
 boolean saveBrightness();
+boolean savePlanifs();
+boolean savePlanif(int i);
+boolean saveNbPlanif();
+boolean saveIndexPlanif();
+boolean saveMqttInfo();
+boolean saveString(int addr, String s);
+boolean saveSSID();
+boolean savePWD();
+boolean saveInitialised();
 
+// GET
 uint8_t getState();
 uint32_t getColor();
 uint8_t getBrightness();
-
-boolean savePlanifs();
-boolean saveNbPlanif();
-boolean saveIndexPlanif();
-boolean savePlanif(int i);
-
+Planif getPlanif(int i);
 uint8_t getNbPlanif();
 uint8_t getIndexPlanif();
-Planif getPlanif(int i);
+String getString(int addr);
+String getSSID();
+String getPWD();
+boolean getInitialised();
 
 #endif

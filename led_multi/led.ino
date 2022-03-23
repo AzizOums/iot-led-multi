@@ -91,7 +91,7 @@ void touchControle()
   {
     state++;
     setState(state);
-    if (!initialised)
-      initialised = true;
+    // if (!initialised)
+    //   initialised = true;
   }
 }

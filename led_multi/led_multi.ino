@@ -1,3 +1,4 @@
+#include "initialise.h"
 #include "led.h"
 #include "planif.h"
 #include "mqttCtrl.h"
@@ -46,24 +47,62 @@ void comparePlanifs()
 
 void setup()
 {
-  configTzTime(tz, ntpServer);
   Serial.begin(115200);
-  initLed();
   initEEPROM();
+  initLed();
   restoreData();
-  mqttSetup();
+
+  if (initialised && wifiSsid.length() > 0 && wifiPwd.length() > 0)
+    mqttSetup();
+  else
+    setupWifi();
+
+  configTzTime(tz, ntpServer);
+}
+
+void reset()
+{
+  if (touchRead(32) < 25 && touchRead(33) < 25)
+  {
+    delay(3000);
+    if (touchRead(32) < 25 && touchRead(33) < 25)
+    {
+      Serial.println("reseting ...");
+      initialised = false;
+      wifiSsid = "";
+      wifiPwd = "";
+      nbPlanif = 0;
+      indexPlanif = 0;
+      for (int i = 0; i < MAXPLANIF; i++)
+        planifs[i] = {0};
+      state = 0;
+      brightness = 0;
+      color = 0;
+      saveData();
+      savePlanifs();
+      saveMqttInfo();
+      ESP.restart();
+    }
+  }
 }
 
 void loop()
 {
-  getCurrentTime();
-  client.loop();
-  if (client.isConnected())
-    mqttSend();
+  if (initialised && wifiSsid.length() > 0 && wifiPwd.length() > 0)
+  {
+    getCurrentTime();
+    client.loop();
+    if (client.isConnected())
+      mqttSend();
+    if (!touchDisabled)
+      touchControle();
+    if (nbPlanif > 0)
+      comparePlanifs();
+    saveData();
+  }
   else
-    touchControle();
-  if (nbPlanif > 0)
-    comparePlanifs();
-  saveData();
+    server.handleClient();
+  if (touchRead(27) < 15)
+    reset();
   delay(DELAYVAL);
 }
