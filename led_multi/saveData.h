@@ -17,6 +17,7 @@ int addrPlanif = addrIndexPlanif + sizeof(uint8_t);
 const int MAXSIZE = 6 * sizeof(uint8_t) + sizeof(uint32_t) + sizeof(planifs) + 2 * sizeof(String);
 
 void initEEPROM();
+void resetMemory();
 void saveData();
 void restorePlanifs();
 void restoreMqttInfo();

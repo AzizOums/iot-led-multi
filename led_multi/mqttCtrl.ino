@@ -1,11 +1,29 @@
-#include "mqttCtrl.h"
-#include "planif.h"
+// #include "WiFi.h"
 #include "led.h"
+#include "planif.h"
+#include "secrets.h"
 #include "saveData.h"
+#include "mqttCtrl.h"
 
-void onConnectionEstablished()
+boolean isInit()
 {
-  mqttControle();
+  return initialised && wifiSsid.length() > 0 && wifiPwd.length() > 0;
+}
+
+void callback(char *topic, byte *message, unsigned int length)
+{
+  String msg = "";
+  for (int i = 0; i < length; i++)
+    msg += (char)message[i];
+
+  if (String(topic) == "iot/led")
+    ledControle(msg);
+  if (String(topic) == "iot/brightness")
+    brightnessControle(msg);
+  if (String(topic) == "iot/planification")
+    planifControle(msg);
+  if (String(topic) == "iot/disable-touch")
+    mqttDisableTouch(msg);
 }
 
 void setWifiParams(String ssid, String pwd)
@@ -18,24 +36,40 @@ void setWifiParams(String ssid, String pwd)
 
 void mqttSetup()
 {
-  Serial.println("init mqtt");
+  WiFi.setHostname(THINGNAME);
   WiFi.begin(wifiSsid.c_str(), wifiPwd.c_str());
-  client.enableDebuggingMessages();
-  client.enableHTTPWebUpdater();
-  client.enableOTA();
-  client.setMaxPacketSize(512);
+  net.setCACert(cacert);
+  net.setCertificate(client_cert);
+  net.setPrivateKey(privkey);
+
+  client.setServer(MQTT_HOST, MQTT_PORT);
+  client.setCallback(callback);
+  client.setBufferSize(512);
+  mqttConnect();
 }
 
-void mqttControle()
+ulong lastReconnect = 0;
+
+void mqttConnect()
 {
-  client.subscribe("iot/led", [](const String &payload)
-                   { ledControle(payload); });
-  client.subscribe("iot/brightness", [](const String &payload)
-                   { brightnessControle(payload); });
-  client.subscribe("iot/planification", [](const String &payload)
-                   { planifControle(payload); });
-  client.subscribe("iot/disable-touch", [](const String &payload)
-                   { mqttDisableTouch(payload); });
+  if (!WiFi.isConnected() && millis() - lastReconnect > 10000)
+  {
+    WiFi.reconnect();
+    lastReconnect = millis();
+  }
+  if (WiFi.isConnected() && client.connect("ESP32Client"))
+  {
+    Serial.println("connected");
+    mqttSubscribe();
+  }
+}
+
+void mqttSubscribe()
+{
+  client.subscribe("iot/led");
+  client.subscribe("iot/brightness");
+  client.subscribe("iot/planification");
+  client.subscribe("iot/disable-touch");
 }
 
 void ledControle(String payload)
@@ -77,16 +111,17 @@ void mqttDisableTouch(String payload)
 
 void sendTelemetrie()
 {
+  Serial.println("trying to publish telemetrie");
   String s = state ? "1" : "0";
   String c = state ? (String)color : "0";
   String b = state ? (String)brightness : "0";
   String msg = "{\"state\": " + s + ",\"brightness\": " + b + ",\"color\": " + c + "}";
-  client.publish("iot/telemetrie", msg);
-  Serial.println(state);
+  client.publish("iot/telemetrie", msg.c_str());
 }
 
 void sendPlanifList()
 {
+  Serial.println("trying to publish planif");
   String msg = "{ \"nbPlanif\": " + (String)nbPlanif + ", \"planif\": [";
   for (int i = 0; i < nbPlanif; i++)
   {
@@ -101,5 +136,5 @@ void sendPlanifList()
       msg += ", ";
   }
   msg += "] }";
-  client.publish("iot/list-planif", msg);
+  client.publish("iot/list-planif", msg.c_str());
 }

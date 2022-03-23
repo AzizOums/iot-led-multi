@@ -7,6 +7,23 @@ void initEEPROM()
   EEPROM.begin(MAXSIZE);
 }
 
+void resetMemory()
+{
+  initialised = false;
+  wifiSsid = "";
+  wifiPwd = "";
+  nbPlanif = 0;
+  indexPlanif = 0;
+  for (int i = 0; i < MAXPLANIF; i++)
+    planifs[i] = {0};
+  state = 0;
+  brightness = 0;
+  color = 0;
+  saveData();
+  savePlanifs();
+  saveMqttInfo();
+}
+
 void saveData()
 {
   saveState();
@@ -52,22 +69,28 @@ void restoreData()
 boolean saveState()
 {
   if (getState() != state)
+  {
     EEPROM.writeUChar(addrState, state);
+    Serial.println("save sate");
+  }
 }
 
 boolean saveColor()
 {
   if (getColor() != color)
   {
-    int x = EEPROM.writeUInt(addrColor, color);
-    return x;
+    EEPROM.writeUInt(addrColor, color);
+    Serial.println("save color");
   }
 }
 
 boolean saveBrightness()
 {
   if (getBrightness() != brightness)
+  {
     return EEPROM.writeUChar(addrBrightness, brightness);
+    Serial.println("save brightness");
+  }
 }
 
 boolean savePlanifs()
@@ -87,6 +110,8 @@ boolean savePlanif(int i)
     int a = addrPlanif + (i * sizeof(Planif));
     EEPROM.put(a, planifs[i]);
     EEPROM.commit();
+
+    Serial.println("save Planif");
     return true;
   }
   return false;
@@ -95,14 +120,20 @@ boolean savePlanif(int i)
 boolean saveNbPlanif()
 {
   if (getNbPlanif() != nbPlanif)
+  {
     return EEPROM.writeUChar(addrNbPlanif, nbPlanif);
+    Serial.println("save nb planif");
+  }
   return false;
 }
 
 boolean saveIndexPlanif()
 {
   if (getIndexPlanif() != indexPlanif)
+  {
     return EEPROM.writeUChar(addrIndexPlanif, indexPlanif);
+    Serial.println("save index planif");
+  }
   return false;
 }
 
@@ -118,7 +149,10 @@ boolean saveMqttInfo()
 boolean saveString(int addr, String s)
 {
   if (!EEPROM.readString(addr).equals(s))
+  {
     return EEPROM.writeString(addr, s);
+    Serial.println("save string : " + s);
+  }
   return false;
 }
 
@@ -135,7 +169,10 @@ boolean savePWD()
 boolean saveInitialised()
 {
   if (getInitialised() != initialised)
+  {
     return EEPROM.writeBool(addrInit, initialised);
+    Serial.println("save init");
+  }
   return false;
 }
 

@@ -1,25 +1,33 @@
 #ifndef _MQTT_CTRL_H_
 #define _MQTT_CTRL_H_
 
-#include <EspMQTTClient.h>
+#include <ssl_client.h>
+#include <PubSubClient.h>
+#include <WiFiClientSecure.h>
 
 boolean touchDisabled = false;
 boolean initialised = false;
 
-const char *mqttServer = "test.mosquitto.org";
+const short MQTT_PORT = 8883;
+const char THINGNAME[] = "ESP32";
+
+// const char *mqttServer = "test.mosquitto.org";
+
 String wifiSsid;
 String wifiPwd;
 
-const char *ss = "default";
-const char *pp = "default";
+WiFiClientSecure net;
+// WiFiClient espClient;
+PubSubClient client(net);
 
-EspMQTTClient client(mqttServer, 1883);
+boolean isInit();
 
+void callback(char *topic, byte *message, unsigned int length);
 void setWifiParams(String ssid, String pwd);
 void mqttSetup();
-void onConnectionEstablished();
+void mqttConnect();
+void mqttSubscribe();
 
-void mqttControle();
 void ledControle(String payload);
 void brightnessControle(String payload);
 void planifControle(String payload);
