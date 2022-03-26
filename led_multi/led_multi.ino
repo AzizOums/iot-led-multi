@@ -33,7 +33,7 @@ void mqttSend()
 
 void comparePlanifs()
 {
-  int i = getPlanif(date->tm_wday, date->tm_hour, date->tm_min);
+  int i = getPlanif(date->tm_wday, date->tm_hour, date->tm_min, date->tm_sec);
   if (i != -1)
   {
     uint32_t c = planifs[i].color;
@@ -52,10 +52,14 @@ void setup()
   initLed();
   restoreData();
 
-  if (initialised && wifiSsid.length() > 0 && wifiPwd.length() > 0)
+  if (initialised && wifiSsid.length() > 0)
     mqttSetup();
   else
+  {
+    while (touchRead(TOUCH_PIN) > 25)
+      ;
     setupWifi();
+  }
 
   configTzTime(tz, ntpServer);
 }

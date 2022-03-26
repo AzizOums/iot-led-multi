@@ -5,14 +5,15 @@
 
 #define PIN 18
 #define TOUCH_PIN 13
+#define TOUCH_PIN_B 14
 
 #define PIXEL 0
 #define NUM_PIXELS 1
 
-// boolean initialised = true;
 uint8_t brightness = 180;
 uint32_t color = 0;
 uint8_t state = 0;
+uint8_t stateB = 0;
 
 Adafruit_NeoPixel pixels(NUM_PIXELS, PIN, NEO_GRB + NEO_KHZ800);
 

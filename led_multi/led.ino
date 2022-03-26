@@ -91,7 +91,10 @@ void touchControle()
   {
     state++;
     setState(state);
-    // if (!initialised)
-    //   initialised = true;
+  }
+  if (touchRead(TOUCH_PIN_B) < 25)
+  {
+    stateB = ++stateB % 4;
+    changeBrightness((255 / 4) * (stateB + 1));
   }
 }

@@ -1,10 +1,10 @@
 #include "planif.h"
 #include "saveData.h"
 
-int getPlanif(int d, int h, int m)
+int getPlanif(int d, int h, int m, int s)
 {
   for (int i = 0; i < nbPlanif; i++)
-    if (isTime(planifs[i], d, h, m))
+    if (isTime(planifs[i], d, h, m, s))
       return i;
   return -1;
 }
@@ -45,6 +45,9 @@ void deletePlanif(String payload)
   if (index < nbPlanif && index >= 0)
   {
     planifs[index] = planifs[nbPlanif - 1];
+    planifs[nbPlanif - 1] = {0};
+    if (nbPlanif == MAXPLANIF)
+      indexPlanif = MAXPLANIF;
     nbPlanif--;
     indexPlanif--;
   }
@@ -56,9 +59,9 @@ void resetPlanif()
   indexPlanif = 0;
 }
 
-boolean isTime(Planif p, int d, int h, int m)
+boolean isTime(Planif p, int d, int h, int m, int s)
 {
-  return d == p.day && h == p.hour && m == p.min;
+  return d == p.day && h == p.hour && m == p.min && s <= 1;
 }
 
 boolean isEqual(Planif p1, Planif p2)

@@ -5,15 +5,14 @@
 
 boolean touchDisabled = false;
 boolean initialised = false;
-
-const char *mqttServer = "test.mosquitto.org";
 String wifiSsid;
 String wifiPwd;
 
-const char *ss = "default";
-const char *pp = "default";
+const char *user = "ESP32";
+const char *pwd = "ESP32Password";
+const char *mqttServer = "ec2-35-180-55-122.eu-west-3.compute.amazonaws.com";
 
-EspMQTTClient client(mqttServer, 1883);
+EspMQTTClient client(mqttServer, 1884, user, pwd);
 
 void setWifiParams(String ssid, String pwd);
 void mqttSetup();

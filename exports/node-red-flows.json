@@ -1,0 +1,911 @@
+[
+  {
+    "id": "915c224b51160bf4",
+    "type": "tab",
+    "label": "Télémétrie et contrôle",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "cbbc7e447d5f5448",
+    "type": "tab",
+    "label": "Planification",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "cc1d485dafb2b033",
+    "type": "ui_base",
+    "theme": {
+      "name": "theme-light",
+      "lightTheme": {
+        "default": "#0094CE",
+        "baseColor": "#0094CE",
+        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+        "edited": true,
+        "reset": false
+      },
+      "darkTheme": {
+        "default": "#097479",
+        "baseColor": "#097479",
+        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+        "edited": false
+      },
+      "customTheme": {
+        "name": "Untitled Theme 1",
+        "default": "#4B7930",
+        "baseColor": "#4B7930",
+        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+      },
+      "themeState": {
+        "base-color": {
+          "default": "#0094CE",
+          "value": "#0094CE",
+          "edited": false
+        },
+        "page-titlebar-backgroundColor": {
+          "value": "#0094CE",
+          "edited": false
+        },
+        "page-backgroundColor": {
+          "value": "#fafafa",
+          "edited": false
+        },
+        "page-sidebar-backgroundColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "group-textColor": {
+          "value": "#1bbfff",
+          "edited": false
+        },
+        "group-borderColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "group-backgroundColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "widget-textColor": {
+          "value": "#111111",
+          "edited": false
+        },
+        "widget-backgroundColor": {
+          "value": "#0094ce",
+          "edited": false
+        },
+        "widget-borderColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "base-font": {
+          "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+        }
+      },
+      "angularTheme": {
+        "primary": "indigo",
+        "accents": "blue",
+        "warn": "red",
+        "background": "grey",
+        "palette": "light"
+      }
+    },
+    "site": {
+      "name": "Node-RED Dashboard",
+      "hideToolbar": "false",
+      "allowSwipe": "false",
+      "lockMenu": "false",
+      "allowTempTheme": "true",
+      "dateFormat": "DD/MM/YYYY",
+      "sizes": {
+        "sx": 48,
+        "sy": 48,
+        "gx": 6,
+        "gy": 6,
+        "cx": 6,
+        "cy": 6,
+        "px": 0,
+        "py": 0
+      }
+    }
+  },
+  {
+    "id": "6e600c30877d231d",
+    "type": "ui_tab",
+    "name": "Planification",
+    "icon": "dashboard",
+    "order": 2,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "8854fa64bef7387c",
+    "type": "ui_group",
+    "name": "Planification",
+    "tab": "6e600c30877d231d",
+    "order": 1,
+    "disp": true,
+    "width": "6",
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "5be24f05f7d6147a",
+    "type": "ui_tab",
+    "name": "Télémétrie et contrôle",
+    "icon": "dashboard",
+    "order": 1,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "6c97b5bc2b5753bb",
+    "type": "ui_group",
+    "name": "Télémétrie et contrôle",
+    "tab": "5be24f05f7d6147a",
+    "order": 1,
+    "disp": true,
+    "width": "6",
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "17fff5c831fcb37c",
+    "type": "tls-config",
+    "name": "",
+    "cert": "",
+    "key": "",
+    "ca": "",
+    "certname": "555b1a4ff37f908f1826098d380680d85d9c67b20c322b6df679e908f7cd0921-certificate.pem.crt",
+    "keyname": "555b1a4ff37f908f1826098d380680d85d9c67b20c322b6df679e908f7cd0921-private.pem.key",
+    "caname": "AmazonRootCA1.pem",
+    "servername": "",
+    "verifyservercert": true,
+    "alpnprotocol": ""
+  },
+  {
+    "id": "62cdbb62aa9fe1e9",
+    "type": "mqtt-broker",
+    "name": "",
+    "broker": "35.180.55.122",
+    "port": "1884",
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {},
+    "sessionExpiry": ""
+  },
+  {
+    "id": "edc3a2a6012cdadb",
+    "type": "influxdb",
+    "hostname": "ec2-35-180-55-122.eu-west-3.compute.amazonaws.com",
+    "port": "8086",
+    "protocol": "http",
+    "database": "iot",
+    "name": "",
+    "usetls": false,
+    "tls": "",
+    "influxdbVersion": "1.x",
+    "url": "http://localhost:8086",
+    "rejectUnauthorized": true
+  },
+  {
+    "id": "9138529fbddb2b9c",
+    "type": "ui_spacer",
+    "z": "915c224b51160bf4",
+    "name": "spacer",
+    "group": "6c97b5bc2b5753bb",
+    "order": 9,
+    "width": 1,
+    "height": 1
+  },
+  {
+    "id": "044f87f3ad1f2820",
+    "type": "ui_spacer",
+    "z": "915c224b51160bf4",
+    "name": "spacer",
+    "group": "6c97b5bc2b5753bb",
+    "order": 11,
+    "width": 1,
+    "height": 1
+  },
+  {
+    "id": "977180941207d358",
+    "type": "ui_spacer",
+    "z": "915c224b51160bf4",
+    "name": "spacer",
+    "group": "8854fa64bef7387c",
+    "order": 2,
+    "width": 1,
+    "height": 1
+  },
+  {
+    "id": "db56b5f5c6764c7b",
+    "type": "mqtt in",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "topic": "iot/telemetrie",
+    "qos": "0",
+    "datatype": "auto",
+    "broker": "62cdbb62aa9fe1e9",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 210,
+    "y": 420,
+    "wires": [
+      [
+        "a3085ea5c207f1c6",
+        "4a6637873f8b7594",
+        "841e3188b8c761df",
+        "ec9ff6bf62d23ed5"
+      ]
+    ]
+  },
+  {
+    "id": "3bf3ff91df4308f3",
+    "type": "influxdb out",
+    "z": "915c224b51160bf4",
+    "influxdb": "edc3a2a6012cdadb",
+    "name": "influxdb",
+    "measurement": "led_state",
+    "precision": "",
+    "retentionPolicy": "",
+    "database": "database",
+    "precisionV18FluxV20": "ms",
+    "retentionPolicyV18Flux": "",
+    "org": "organisation",
+    "bucket": "bucket",
+    "x": 640,
+    "y": 500,
+    "wires": []
+  },
+  {
+    "id": "a3085ea5c207f1c6",
+    "type": "function",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "func": "const {state, brightness, color} = JSON.parse(msg.payload);\nconst str = color.toString(16);\n\nconst r = parseInt(str.substring(0, 2), 16);\nconst g = parseInt(str.substring(2, 4), 16);\nconst b = parseInt(str.substring(4, 6), 16);\n\nreturn {\n    payload: {\n        state,\n        brightness,\n        r: r ? r : 0,\n        g: g ? g : 0,\n        b: b ? b : 0,\n    }\n};",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 500,
+    "wires": [
+      [
+        "3bf3ff91df4308f3",
+        "57699710d37e72f8"
+      ]
+    ]
+  },
+  {
+    "id": "841e3188b8c761df",
+    "type": "function",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "func": "const {color} = JSON.parse(msg.payload);\n\nreturn {\n    payload: color.toString(16),\n};",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 400,
+    "wires": [
+      [
+        "a072d096507aa82b"
+      ]
+    ]
+  },
+  {
+    "id": "4a6637873f8b7594",
+    "type": "function",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "func": "const {brightness} = JSON.parse(msg.payload);\nreturn {\n    payload: brightness\n};",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 340,
+    "wires": [
+      [
+        "e562ed4a9e348e24"
+      ]
+    ]
+  },
+  {
+    "id": "ec9ff6bf62d23ed5",
+    "type": "function",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "func": "const {state} = JSON.parse(msg.payload);\nreturn {\n    payload: state,\n};",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 440,
+    "y": 440,
+    "wires": [
+      [
+        "f0ae2a6f0cbcddb9"
+      ]
+    ]
+  },
+  {
+    "id": "57699710d37e72f8",
+    "type": "ui_template",
+    "z": "915c224b51160bf4",
+    "group": "6c97b5bc2b5753bb",
+    "name": "Télémétrie",
+    "order": 10,
+    "width": 0,
+    "height": 0,
+    "format": "<div style=\"height: 90px;\">\n    <div>\n        Télémétrie\n    </div>\n    <table>\n        <tr>\n            <td>Etat</td>\n            <td>Couleur</td>\n            <td>Intensité</td>\n        </tr>\n        <tr ng-repeat=\"x in msg\">\n            <td>{{ x.state }}</td>\n            <td>{{ x.r }} {{ x.g }} {{ x.b }}</td>\n            <td>{{ x.brightness }}</td>\n        </tr>\n    </table>\n</div>",
+    "storeOutMessages": true,
+    "fwdInMessages": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 630,
+    "y": 540,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "a072d096507aa82b",
+    "type": "ui_colour_picker",
+    "z": "915c224b51160bf4",
+    "name": "Color",
+    "label": "Color",
+    "group": "6c97b5bc2b5753bb",
+    "format": "hex",
+    "outformat": "string",
+    "showSwatch": true,
+    "showPicker": false,
+    "showValue": false,
+    "showHue": false,
+    "showAlpha": false,
+    "showLightness": true,
+    "square": "false",
+    "dynOutput": "false",
+    "order": 6,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "topic": "topic",
+    "topicType": "msg",
+    "className": "",
+    "x": 650,
+    "y": 400,
+    "wires": [
+      [
+        "ff2510f2a11097bf"
+      ]
+    ]
+  },
+  {
+    "id": "f0ae2a6f0cbcddb9",
+    "type": "ui_switch",
+    "z": "915c224b51160bf4",
+    "name": "State",
+    "label": "State",
+    "tooltip": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 8,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "decouple": "true",
+    "topic": "topic",
+    "topicType": "msg",
+    "style": "",
+    "onvalue": "1",
+    "onvalueType": "num",
+    "onicon": "",
+    "oncolor": "",
+    "offvalue": "0",
+    "offvalueType": "num",
+    "officon": "",
+    "offcolor": "",
+    "animate": false,
+    "className": "",
+    "x": 650,
+    "y": 440,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "e562ed4a9e348e24",
+    "type": "ui_slider",
+    "z": "915c224b51160bf4",
+    "name": "Brightness",
+    "label": "Brightness",
+    "tooltip": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 7,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "outs": "all",
+    "topic": "topic",
+    "topicType": "msg",
+    "min": 0,
+    "max": "255",
+    "step": 1,
+    "className": "",
+    "x": 630,
+    "y": 340,
+    "wires": [
+      [
+        "e6c6955ad2f13cd0"
+      ]
+    ]
+  },
+  {
+    "id": "cac95bd8f48cd231",
+    "type": "mqtt out",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "topic": "iot/led",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "62cdbb62aa9fe1e9",
+    "x": 1050,
+    "y": 520,
+    "wires": []
+  },
+  {
+    "id": "ff2510f2a11097bf",
+    "type": "function",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "func": "const payload = parseInt(msg.payload, 16);\n\nreturn { payload };\n\n",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 840,
+    "y": 400,
+    "wires": [
+      [
+        "cac95bd8f48cd231"
+      ]
+    ]
+  },
+  {
+    "id": "e6c6955ad2f13cd0",
+    "type": "mqtt out",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "topic": "iot/brightness",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "62cdbb62aa9fe1e9",
+    "x": 830,
+    "y": 340,
+    "wires": []
+  },
+  {
+    "id": "999d1241114db1de",
+    "type": "ui_button",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Orange",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "1",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 840,
+    "y": 460,
+    "wires": [
+      [
+        "cac95bd8f48cd231"
+      ]
+    ]
+  },
+  {
+    "id": "3034b2df101629a4",
+    "type": "ui_button",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 2,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Purple",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "2",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 830,
+    "y": 500,
+    "wires": [
+      [
+        "cac95bd8f48cd231"
+      ]
+    ]
+  },
+  {
+    "id": "fcf3834206604593",
+    "type": "ui_button",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "White",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "4",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 830,
+    "y": 580,
+    "wires": [
+      [
+        "cac95bd8f48cd231"
+      ]
+    ]
+  },
+  {
+    "id": "51a0d2dd8c86f718",
+    "type": "ui_button",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Green",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "3",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 830,
+    "y": 540,
+    "wires": [
+      [
+        "cac95bd8f48cd231"
+      ]
+    ]
+  },
+  {
+    "id": "00cd335dbd8de596",
+    "type": "ui_button",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Off",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "0",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 830,
+    "y": 620,
+    "wires": [
+      [
+        "cac95bd8f48cd231"
+      ]
+    ]
+  },
+  {
+    "id": "d0dcd9d821fd58a0",
+    "type": "mqtt out",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "topic": "iot/disable-touch",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "62cdbb62aa9fe1e9",
+    "x": 620,
+    "y": 600,
+    "wires": []
+  },
+  {
+    "id": "2a193e380603fb9c",
+    "type": "ui_button",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 13,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Disable touch",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "1",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 380,
+    "y": 600,
+    "wires": [
+      [
+        "d0dcd9d821fd58a0"
+      ]
+    ]
+  },
+  {
+    "id": "32cbd9438d4c6690",
+    "type": "ui_button",
+    "z": "915c224b51160bf4",
+    "name": "",
+    "group": "6c97b5bc2b5753bb",
+    "order": 12,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Enable touch",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "0",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "msg",
+    "x": 390,
+    "y": 640,
+    "wires": [
+      [
+        "d0dcd9d821fd58a0"
+      ]
+    ]
+  },
+  {
+    "id": "210970f85f61c571",
+    "type": "mqtt in",
+    "z": "cbbc7e447d5f5448",
+    "name": "",
+    "topic": "iot/list-planif",
+    "qos": "0",
+    "datatype": "auto",
+    "broker": "62cdbb62aa9fe1e9",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 230,
+    "y": 300,
+    "wires": [
+      [
+        "764a680d9b02e492"
+      ]
+    ]
+  },
+  {
+    "id": "5ec59fad2a5101c1",
+    "type": "ui_template",
+    "z": "cbbc7e447d5f5448",
+    "group": "8854fa64bef7387c",
+    "name": "Planifications",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "format": "<div style=\"height: 230px;\">\n    <div>\n        Liste des planifications : {{ msg.nbPlanif }}\n    </div>\n    <table>\n        <tr>\n            <td>Jour</td>\n            <td>Heure</td>\n            <td>Couleur</td>\n            <td>Intensité</td>\n        </tr>\n        <tr ng-repeat=\"x in msg.planif\">\n            <td>{{ x.day }}</td>\n            <td>{{ x.time }}</td>\n            <td>{{ x.color }}</td>\n            <td>{{ x.brightness }}</td>\n        </tr>\n    </table>\n</div>",
+    "storeOutMessages": true,
+    "fwdInMessages": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 790,
+    "y": 300,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "764a680d9b02e492",
+    "type": "function",
+    "z": "cbbc7e447d5f5448",
+    "name": "",
+    "func": "const day = [\n    \"Dimanche\",\n    \"Lundi\",\n    \"Mardi\",\n    \"Mercredi\",\n    \"Jeudi\",\n    \"Vendredi\",\n    \"Samedi\",\n];\n\nconst col = [\n    \"Off\",\n    \"Orange\",\n    \"Purple\",\n    \"Green\",\n    \"White\",\n];\n\nconst { nbPlanif, planif } = JSON.parse(msg.payload);\n\nconst f = (x) => x < 10 ? `0${x}` : `${x}`;\n\nconst arr = planif.map((e) => ({\n        day: day[e.day],\n        brightness: e.brightness,\n        time: `${f(e.hour)}:${f(e.min)}`,\n        color: e.color < 5 ? col[e.color] : `#${e.color.toString(16)}`,\n    }));\n    \n\nreturn {\n    nbPlanif,\n    planif: arr,\n};",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 480,
+    "y": 300,
+    "wires": [
+      [
+        "5ec59fad2a5101c1"
+      ]
+    ]
+  },
+  {
+    "id": "93be456e966f15fe",
+    "type": "ui_button",
+    "z": "cbbc7e447d5f5448",
+    "name": "Reset",
+    "group": "8854fa64bef7387c",
+    "order": 5,
+    "width": 0,
+    "height": 0,
+    "passthru": false,
+    "label": "Reset",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "reset",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 590,
+    "y": 420,
+    "wires": [
+      [
+        "88213e69be3f856a"
+      ]
+    ]
+  },
+  {
+    "id": "c0aa9fb38e1b52fd",
+    "type": "ui_template",
+    "z": "cbbc7e447d5f5448",
+    "group": "8854fa64bef7387c",
+    "name": "Planifier",
+    "order": 3,
+    "width": 0,
+    "height": 0,
+    "format": "<!--<div style=\"height: 230px;\">-->\n    <h3>\n        Nouvelle planification\n    </h3>\n    <div style=\"display: flex; flex-direction: column; align-items: \">\n        <div class=\"row\">\n            <label for=\"day\">Jour</label>\n            <select value=\"1\" id=\"day\" ng-model=\"day\" required>\n                <option value=\"1\">Lundi</option>\n                <option value=\"2\">Mardi</option>\n                <option value=\"3\">Mercredi</option>\n                <option value=\"4\">Jeudi</option>\n                <option value=\"5\">Vendredi</option>\n                <option value=\"6\">Samedi</option>\n                <option value=\"0\">Dimanche</option>\n            </select>\n        </div>\n        <div class=\"row\">\n            <label for=\"time\">Heure</label>\n            <input value=\"12:00\" id=\"time\" type=\"time\" ng-model=\"time\" required>\n        </div>\n        <div class=\"row\">\n            <label for=\"state\">Etat</label>\n            <select value=\"1\" id=\"state\" ng-model=\"state\" required>\n                <option value=\"1\">On</option>\n                <option value=\"0\">Off</option>\n            </select>\n        </div>\n        <div class=\"row\">\n            <label for=\"color\">Couleur</label>\n            <input id=\"color\" value=\"#FF00FF\" type=\"color\" ng-model=\"color\" >\n        </div>\n        <div class=\"row\">\n            <label for=\"brightness\">Intensité</label>\n            <input value=\"130\" id=\"brightness\" type=\"range\" ng-model=\"brightness\" min=\"0\" max=\"255\">\n        </div>\n        \n        <button ng-click=\"send({day, time, color, state, brightness})\">\n            Planifier\n        </button>\n    </div>\n<!--</div>-->\n\n<style>\n    .row {\n        justify-content: space-between;\n        display: flex;\n        margin: 2px;\n    }\n</style>",
+    "storeOutMessages": true,
+    "fwdInMessages": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 220,
+    "y": 360,
+    "wires": [
+      [
+        "ffa2a2dc521fae4c"
+      ]
+    ]
+  },
+  {
+    "id": "ffa2a2dc521fae4c",
+    "type": "function",
+    "z": "cbbc7e447d5f5448",
+    "name": "",
+    "func": "const {day, time, color, brightness, state} = msg;\n\nif(day === undefined || time === undefined || state === undefined)\n    return {};\n\nconst h = new Date(time).getHours();\nconst m = new Date(time).getMinutes();\n\nconst c = state === \"0\" ? 0 : parseInt(color.substring(1), 16);\n\n\nconst payload = `${day} ${h}:${m} ${c} ${brightness}`\n\nnode.warn(payload);\n\nreturn {payload};",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 480,
+    "y": 360,
+    "wires": [
+      [
+        "88213e69be3f856a"
+      ]
+    ]
+  },
+  {
+    "id": "88213e69be3f856a",
+    "type": "mqtt out",
+    "z": "cbbc7e447d5f5448",
+    "name": "",
+    "topic": "iot/planification",
+    "qos": "",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "62cdbb62aa9fe1e9",
+    "x": 780,
+    "y": 360,
+    "wires": []
+  },
+  {
+    "id": "03c79630643d86d3",
+    "type": "ui_template",
+    "z": "cbbc7e447d5f5448",
+    "group": "8854fa64bef7387c",
+    "name": "Delete",
+    "order": 4,
+    "width": 0,
+    "height": 0,
+    "format": "<h3>\n    Supprimer une planification\n</h3>\n<div style=\"display: flex; flex-direction: column; align-items: \">\n    <div class=\"row\">\n        <label for=\"del\">Index</label>\n        <select value=\"0\" id=\"del\" ng-model=\"del\" required>\n            <option value=\"0\">0</option>\n            <option value=\"1\">1</option>\n            <option value=\"2\">2</option>\n            <option value=\"3\">3</option>\n            <option value=\"4\">4</option>\n            <option value=\"5\">5</option>\n            <option value=\"6\">6</option>\n            <option value=\"7\">7</option>\n        </select>\n    </div>\n    \n    <button ng-click=\"send({payload: del})\">\n        Supprimer\n    </button>\n</div>\n\n<style>\n    .row {\n        justify-content: space-between;\n        display: flex;\n        margin: 2px;\n    }\n</style>",
+    "storeOutMessages": true,
+    "fwdInMessages": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 590,
+    "y": 480,
+    "wires": [
+      [
+        "88213e69be3f856a"
+      ]
+    ]
+  }
+]

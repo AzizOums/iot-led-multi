@@ -16,7 +16,7 @@ Planif planifs[MAXPLANIF];
 uint8_t nbPlanif = 0;
 uint8_t indexPlanif = 0;
 
-int getPlanif(int d, int h, int m);
+int getPlanif(int d, int h, int m, int s);
 void addPlanif(String payload);
 void deletePlanif(String payload);
 void resetPlanif();
