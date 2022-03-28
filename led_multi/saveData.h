@@ -4,19 +4,20 @@
 #include <EEPROM.h>
 #include "planif.h"
 
-int addrInit = 0;
-int addrSSID = addrInit + sizeof(boolean);
-int addrPWD = addrSSID + sizeof(String);
-int addrState = addrPWD + sizeof(String);
-int addrColor = addrState + sizeof(uint8_t);
-int addrBrightness = addrColor + sizeof(uint32_t);
-int addrNbPlanif = addrBrightness + sizeof(uint8_t);
-int addrIndexPlanif = addrNbPlanif + sizeof(uint8_t);
-int addrPlanif = addrIndexPlanif + sizeof(uint8_t);
+const int addrInit = 0;
+const int addrSSID = addrInit + sizeof(boolean);
+const int addrPWD = addrSSID + sizeof(String);
+const int addrState = addrPWD + sizeof(String);
+const int addrColor = addrState + sizeof(uint8_t);
+const int addrBrightness = addrColor + sizeof(uint32_t);
+const int addrNbPlanif = addrBrightness + sizeof(uint8_t);
+const int addrIndexPlanif = addrNbPlanif + sizeof(uint8_t);
+const int addrPlanif = addrIndexPlanif + sizeof(uint8_t);
 
-const int MAXSIZE = 6 * sizeof(uint8_t) + sizeof(uint32_t) + sizeof(planifs) + 2 * sizeof(String);
+const int MAXSIZE = 5 * sizeof(uint8_t) + sizeof(uint32_t) + sizeof(planifs) + 2 * sizeof(String);
 
 void initEEPROM();
+void resetMemory();
 void saveData();
 void restorePlanifs();
 void restoreMqttInfo();

@@ -18,11 +18,7 @@ void setWifiParams(String ssid, String pwd)
 
 void mqttSetup()
 {
-  Serial.println("init mqtt");
   WiFi.begin(wifiSsid.c_str(), wifiPwd.c_str());
-  client.enableDebuggingMessages();
-  client.enableHTTPWebUpdater();
-  client.enableOTA();
   client.setMaxPacketSize(512);
 }
 
@@ -82,7 +78,6 @@ void sendTelemetrie()
   String b = state ? (String)brightness : "0";
   String msg = "{\"state\": " + s + ",\"brightness\": " + b + ",\"color\": " + c + "}";
   client.publish("iot/telemetrie", msg);
-  Serial.println(state);
 }
 
 void sendPlanifList()

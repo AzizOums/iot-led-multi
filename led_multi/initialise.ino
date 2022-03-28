@@ -27,15 +27,10 @@ void sendPage()
 
 void setupWifi()
 {
-  Serial.println("setting up wifi");
   WiFi.softAP(SSID, PWD);
   delay(100);
   WiFi.softAPConfig(IP, IP, subnet);
   delay(100);
-  IPAddress ip = WiFi.softAPIP();
-  Serial.print("IP address: ");
-  Serial.println(ip);
-
   server.on("/", sendPage);
   server.on("/init", initSettings);
   server.begin();

@@ -86,13 +86,12 @@ void setState(uint8_t c)
 // capteur de toucher
 void touchControle()
 {
-  int t = touchRead(TOUCH_PIN);
-  if (t < 25)
+  if (touchRead(TOUCH_PIN) < 30)
   {
     state++;
     setState(state);
   }
-  if (touchRead(TOUCH_PIN_B) < 25)
+  if (touchRead(TOUCH_PIN_B) < 30)
   {
     stateB = ++stateB % 4;
     changeBrightness((255 / 4) * (stateB + 1));

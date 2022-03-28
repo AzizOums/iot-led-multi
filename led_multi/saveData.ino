@@ -7,6 +7,23 @@ void initEEPROM()
   EEPROM.begin(MAXSIZE);
 }
 
+void resetMemory()
+{
+  initialised = false;
+  wifiSsid = "";
+  wifiPwd = "";
+  nbPlanif = 0;
+  indexPlanif = 0;
+  for (int i = 0; i < MAXPLANIF; i++)
+    planifs[i] = {0};
+  state = 0;
+  brightness = 0;
+  color = 0;
+  saveData();
+  savePlanifs();
+  saveMqttInfo();
+}
+
 void saveData()
 {
   saveState();

@@ -10,7 +10,7 @@ String wifiPwd;
 
 const char *user = "ESP32";
 const char *pwd = "ESP32Password";
-const char *mqttServer = "ec2-35-180-55-122.eu-west-3.compute.amazonaws.com";
+const char *mqttServer = "35.180.55.122";
 
 EspMQTTClient client(mqttServer, 1884, user, pwd);
 

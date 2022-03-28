@@ -1,8 +1,8 @@
-#include "initialise.h"
 #include "led.h"
 #include "planif.h"
 #include "mqttCtrl.h"
 #include "saveData.h"
+#include "initialise.h"
 
 #define DELAYVAL 500
 
@@ -47,7 +47,6 @@ void comparePlanifs()
 
 void setup()
 {
-  Serial.begin(115200);
   initEEPROM();
   initLed();
   restoreData();
@@ -71,20 +70,7 @@ void reset()
     delay(3000);
     if (touchRead(32) < 25 && touchRead(33) < 25)
     {
-      Serial.println("reseting ...");
-      initialised = false;
-      wifiSsid = "";
-      wifiPwd = "";
-      nbPlanif = 0;
-      indexPlanif = 0;
-      for (int i = 0; i < MAXPLANIF; i++)
-        planifs[i] = {0};
-      state = 0;
-      brightness = 0;
-      color = 0;
-      saveData();
-      savePlanifs();
-      saveMqttInfo();
+      resetMemory();
       ESP.restart();
     }
   }
@@ -92,7 +78,7 @@ void reset()
 
 void loop()
 {
-  if (initialised && wifiSsid.length() > 0 && wifiPwd.length() > 0)
+  if (initialised && wifiSsid.length() > 0)
   {
     getCurrentTime();
     client.loop();
