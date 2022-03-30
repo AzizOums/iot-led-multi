@@ -195,7 +195,7 @@
   {
     "id": "edc3a2a6012cdadb",
     "type": "influxdb",
-    "hostname": "ec2-35-180-55-122.eu-west-3.compute.amazonaws.com",
+    "hostname": "35.180.55.122",
     "port": "8086",
     "protocol": "http",
     "database": "iot",
@@ -203,7 +203,7 @@
     "usetls": false,
     "tls": "",
     "influxdbVersion": "1.x",
-    "url": "http://localhost:8086",
+    "url": "http://35.180.55.122:8086",
     "rejectUnauthorized": true
   },
   {

@@ -86,14 +86,23 @@ void setState(uint8_t c)
 // capteur de toucher
 void touchControle()
 {
-  if (touchRead(TOUCH_PIN) < 30)
+  if (touchRead(TOUCH_PIN) < TOUCH_LIMIT)
   {
-    state++;
-    setState(state);
+    delay(250);
+    if (touchRead(TOUCH_PIN) < TOUCH_LIMIT)
+    {
+      state++;
+      setState(state);
+    }
   }
-  if (touchRead(TOUCH_PIN_B) < 30)
+  if (touchRead(TOUCH_PIN_B) < TOUCH_LIMIT)
   {
-    stateB = ++stateB % 4;
-    changeBrightness((255 / 4) * (stateB + 1));
+    delay(250);
+    if (touchRead(TOUCH_PIN_B) < TOUCH_LIMIT)
+    {
+
+      stateB = ++stateB % 4;
+      changeBrightness((255 / 4) * (stateB + 1));
+    }
   }
 }

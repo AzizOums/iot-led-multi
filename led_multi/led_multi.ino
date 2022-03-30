@@ -65,10 +65,10 @@ void setup()
 
 void reset()
 {
-  if (touchRead(32) < 25 && touchRead(33) < 25)
+  if (touchRead(32) < TOUCH_LIMIT && touchRead(33) < TOUCH_LIMIT)
   {
     delay(3000);
-    if (touchRead(32) < 25 && touchRead(33) < 25)
+    if (touchRead(32) < TOUCH_LIMIT && touchRead(33) < TOUCH_LIMIT)
     {
       resetMemory();
       ESP.restart();
@@ -84,6 +84,8 @@ void loop()
     client.loop();
     if (client.isConnected())
       mqttSend();
+    else if (touchDisabled)
+      touchDisabled = false;
     if (!touchDisabled)
       touchControle();
     if (nbPlanif > 0)
