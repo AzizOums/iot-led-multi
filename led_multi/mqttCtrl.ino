@@ -10,10 +10,16 @@ void onConnectionEstablished()
 
 void setWifiParams(String ssid, String pwd)
 {
-  wifiSsid = ssid;
-  wifiPwd = pwd;
-  initialised = true;
-  saveMqttInfo();
+  WiFi.begin(ssid.c_str(), pwd.c_str());
+  delay(5000);
+  if (WiFi.isConnected())
+  {
+
+    wifiSsid = ssid;
+    wifiPwd = pwd;
+    initialised = true;
+    saveMqttInfo();
+  }
 }
 
 void mqttSetup()
