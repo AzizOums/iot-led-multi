@@ -6,7 +6,7 @@
 #define PIN 18
 #define TOUCH_PIN 13
 #define TOUCH_PIN_B 14
-#define TOUCH_LIMIT 20
+#define TOUCH_LIMIT 25
 
 #define PIXEL 0
 #define NUM_PIXELS 1

@@ -1,5 +1,6 @@
 #include "planif.h"
 #include "saveData.h"
+#include "mqttCtrl.h"
 
 int getPlanif(int d, int h, int m, int s)
 {
@@ -34,6 +35,9 @@ void addPlanif(String payload)
         nbPlanif++;
       indexPlanif = i + 1;
     }
+
+    if (client.isConnected())
+      sendPlanifList();
   }
 }
 
@@ -50,6 +54,8 @@ void deletePlanif(String payload)
       indexPlanif = MAXPLANIF;
     nbPlanif--;
     indexPlanif--;
+    if (client.isConnected())
+      sendPlanifList();
   }
 }
 
@@ -57,6 +63,8 @@ void resetPlanif()
 {
   nbPlanif = 0;
   indexPlanif = 0;
+  if (client.isConnected())
+    sendPlanifList();
 }
 
 boolean isTime(Planif p, int d, int h, int m, int s)

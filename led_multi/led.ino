@@ -1,5 +1,6 @@
 #include "led.h"
 #include "saveData.h"
+#include "mqttCtrl.h"
 
 void initLed()
 {
@@ -15,6 +16,8 @@ void changeColor(uint32_t c)
     color = c;
   if (!state)
     state = 1;
+  if (client.isConnected())
+    sendTelemetrie();
 }
 
 void changeBrightness(uint8_t b)
@@ -23,6 +26,8 @@ void changeBrightness(uint8_t b)
   pixels.show();
   if (brightness != b)
     brightness = b;
+  if (client.isConnected())
+    sendTelemetrie();
 }
 
 void setOrange()
@@ -88,21 +93,13 @@ void touchControle()
 {
   if (touchRead(TOUCH_PIN) < TOUCH_LIMIT)
   {
-    delay(250);
-    if (touchRead(TOUCH_PIN) < TOUCH_LIMIT)
-    {
-      state++;
-      setState(state);
-    }
+    state++;
+    setState(state);
   }
   if (touchRead(TOUCH_PIN_B) < TOUCH_LIMIT)
   {
-    delay(250);
-    if (touchRead(TOUCH_PIN_B) < TOUCH_LIMIT)
-    {
 
-      stateB = ++stateB % 4;
-      changeBrightness((255 / 4) * (stateB + 1));
-    }
+    stateB = ++stateB % 4;
+    changeBrightness((255 / 4) * (stateB + 1));
   }
 }
